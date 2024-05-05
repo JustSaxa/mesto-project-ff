@@ -22,7 +22,6 @@ function deleteCard(card) {
     card.remove();
   }
 // @todo: Вывести карточки на страницу
-
 initialCards.forEach((function (element) {
     cardList.append(addCard(element, deleteCard));
   }))
