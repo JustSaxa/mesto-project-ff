@@ -22,13 +22,21 @@ const jobInput = formElementProfile.elements.description; // форма проф
 const ProfileEdit = document.querySelector('.profile__edit-button'); // кнопка редактирования профиля
 const cardAdd = document.querySelector('.profile__add-button'); // кнопка добавление карточки
 const card = cardTemplate.querySelector('.places__item'); //  карточка
-const cardView = card.querySelector('.card__image');
+
+const cardTitle = card.querySelector('.card__title');
 const ButtonLike = cardTemplate.querySelector('.card__like-button');
 
 
+const cardImage = cardTemplate.querySelector('.card__image');
+
+
 const popupEditForm = document.querySelector('.popup_type_edit'); // редактирование профиля модальное окно
+
 const popupAddCard = document.querySelector('.popup_type_new-card'); // добавление карточки модальное окно
-const popupViewImage = document.querySelector('.popup_type_image'); // модальное окно с избображение
+
+const popupViewImage = document.querySelector('.popup_type_image'); // модальное окно с избображением
+const ElementViewImage = popupViewImage.querySelector('.popup__image'); // изображение в модальном окне
+const popupImageTitle = popupViewImage.querySelector('.popup__caption'); 
 const closePopup = document.querySelector('.popup__close'); // кнопка закрытия
 
 const popups = document.querySelectorAll('.popup'); // все попапы
@@ -36,14 +44,20 @@ const popups = document.querySelectorAll('.popup'); // все попапы
 // @todo: Функция создания карточки
 
 
-function addCard(cardCreate, deleteCard, cardLike) {
+function addCard(cardCreate, deleteCard, cardLike, openCardImage) {
     const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
     const deleteButton = cardElement.querySelector('.card__delete-button');
     const ButtonLike = cardElement.querySelector('.card__like-button');
+    const cardView = cardElement.querySelector('.card__image');
 
     cardElement.querySelector('.card__title').textContent = cardCreate.name;
     cardElement.querySelector('.card__image').src = cardCreate.link;
     cardElement.querySelector('.card__image').alt = cardCreate.name;
+
+    cardTitle.textContent = cardCreate.name;
+    console.log(cardTitle.textContent)
+    
+
 
     deleteButton.addEventListener('click', () => {
         deleteCard(cardElement);
@@ -51,6 +65,9 @@ function addCard(cardCreate, deleteCard, cardLike) {
 
       ButtonLike.addEventListener('click', cardLike);
       
+      cardView.addEventListener('click', function(){
+        openCardImage(cardView);
+      });
 
      
 
@@ -62,7 +79,7 @@ function deleteCard(card) {
   }
 // @todo: Вывести карточки на страницу
 initialCards.forEach((function (element) {
-    cardList.append(addCard(element, deleteCard, cardLike));
+    cardList.append(addCard(element, deleteCard, cardLike, openCardImage));
   }))
 
 // открытие попапа редиктирования профиля
@@ -103,11 +120,7 @@ cardAdd.addEventListener('click', function(){
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 formElementProfile.addEventListener('submit', handleFormSubmit); 
-function clickImage(){
-  cardView.addEventListener('click', function(popup){
-    popup.classList.add('popup_is-opened');
-  })
-}
+
 
 // функция лайка карточки
 function cardLike(evt) {
@@ -115,4 +128,16 @@ function cardLike(evt) {
 }
 
 
-console.log(ButtonLike)
+
+
+//функция открытия изображение карточки
+
+function openCardImage(cardView){
+  ElementViewImage.src = cardView.src;
+  ElementViewImage.alt = cardView.alt;
+
+  popupImageTitle.textContent = cardView.textContent;
+  console.log(popupImageTitle);
+
+  openPopup(popupViewImage);
+}
