@@ -48,14 +48,13 @@ function addCard(cardCreate, deleteCard, cardLike, openCardImage) {
     const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
     const deleteButton = cardElement.querySelector('.card__delete-button');
     const ButtonLike = cardElement.querySelector('.card__like-button');
-    const cardView = cardElement.querySelector('.card__image');
+    const cardImage = cardElement.querySelector('.card__image');
 
     cardElement.querySelector('.card__title').textContent = cardCreate.name;
     cardElement.querySelector('.card__image').src = cardCreate.link;
     cardElement.querySelector('.card__image').alt = cardCreate.name;
 
-    cardTitle.textContent = cardCreate.name;
-    console.log(cardTitle.textContent)
+   
     
 
 
@@ -65,8 +64,8 @@ function addCard(cardCreate, deleteCard, cardLike, openCardImage) {
 
       ButtonLike.addEventListener('click', cardLike);
       
-      cardView.addEventListener('click', function(){
-        openCardImage(cardView);
+      cardImage.addEventListener('click', function(){
+        openCardImage(cardImage);
       });
 
      
@@ -136,8 +135,8 @@ function openCardImage(cardView){
   ElementViewImage.src = cardView.src;
   ElementViewImage.alt = cardView.alt;
 
-  popupImageTitle.textContent = cardView.textContent;
-  console.log(popupImageTitle);
+  popupImageTitle.textContent = cardView.alt;
+
 
   openPopup(popupViewImage);
 }
