@@ -1,6 +1,7 @@
 import './pages/index.css';
 import {initialCards} from './scripts/cards.js';
-import {openPopup, closePopups, closePopupEsc} from './scripts/modal.js';
+import {openPopup, closePopups, closePopupEsc} from './components/modal.js';
+import {addCard, deleteCard, cardLike } from './components/card.js';
 
 
 
@@ -46,38 +47,9 @@ const popups = document.querySelectorAll('.popup'); // все попапы
 // @todo: Функция создания карточки
 
 
-function addCard(cardData, deleteCard, cardLike, openCardImage) {
-    const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    const ButtonLike = cardElement.querySelector('.card__like-button');
-    const cardImage = cardElement.querySelector('.card__image');
 
-    cardElement.querySelector('.card__title').textContent = cardData.name;
-    cardElement.querySelector('.card__image').src = cardData.link;
-    cardElement.querySelector('.card__image').alt = cardData.name;
-
-   
-    
-
-
-    deleteButton.addEventListener('click', () => {
-        deleteCard(cardElement);
-      });
-
-      ButtonLike.addEventListener('click', cardLike);
-      
-      cardImage.addEventListener('click', function(){
-        openCardImage(cardImage);
-      });
-
-     
-
-      return cardElement;
-  };
 // @todo: Функция удаления карточки
-function deleteCard(card) {
-    card.remove();
-  }
+
 // @todo: Вывести карточки на страницу
 initialCards.forEach((function (element) {
     cardList.append(addCard(element, deleteCard, cardLike, openCardImage));
@@ -124,9 +96,7 @@ formElementProfile.addEventListener('submit', handleFormSubmit);
 
 
 // функция лайка карточки
-function cardLike(evt) {
-  evt.target.classList.toggle('card__like-button_is-active');
-}
+
 
 
 
