@@ -17,7 +17,9 @@ const formElementProfile = document.forms['edit-profile']; // форма про�
 const nameInput = formElementProfile.elements.name; // форма профиля ИМЯ
 const jobInput = formElementProfile.elements.description; // форма профиля ОПИСАНИЕ
 
-
+const formElementAddCard = document.forms['new-place']; // форма добавление карточки
+const placeName = formElementAddCard.elements['place-name']; // поле наименования местности
+const ImgLink = formElementAddCard.elements.link; // ссылка на картинку
 
 const ProfileEdit = document.querySelector('.profile__edit-button'); // кнопка редактирования профиля
 const cardAdd = document.querySelector('.profile__add-button'); // кнопка добавление карточки
@@ -44,15 +46,15 @@ const popups = document.querySelectorAll('.popup'); // все попапы
 // @todo: Функция создания карточки
 
 
-function addCard(cardCreate, deleteCard, cardLike, openCardImage) {
+function addCard(cardData, deleteCard, cardLike, openCardImage) {
     const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
     const deleteButton = cardElement.querySelector('.card__delete-button');
     const ButtonLike = cardElement.querySelector('.card__like-button');
     const cardImage = cardElement.querySelector('.card__image');
 
-    cardElement.querySelector('.card__title').textContent = cardCreate.name;
-    cardElement.querySelector('.card__image').src = cardCreate.link;
-    cardElement.querySelector('.card__image').alt = cardCreate.name;
+    cardElement.querySelector('.card__title').textContent = cardData.name;
+    cardElement.querySelector('.card__image').src = cardData.link;
+    cardElement.querySelector('.card__image').alt = cardData.name;
 
    
     
@@ -140,3 +142,30 @@ function openCardImage(cardView){
 
   openPopup(popupViewImage);
 }
+
+
+// добавление карточки
+
+function createCard(evt) {
+  evt.preventDefault(); // Предотвращаем перезагрузку страницы при отправке формы
+
+  // Получаем данные из формы
+
+
+  // Создаем объект с данными карточки
+  const cardData = {
+      name: placeName.value,
+      link: ImgLink.value
+  };
+
+  // Используем функцию addCard для создания новой карточки
+  const newCard = addCard(cardData, deleteCard, cardLike, openCardImage);
+  cardList.prepend(newCard);
+  
+
+  // Очищаем форму после добавления карточки
+  closePopups(popupAddCard);
+  formElementAddCard.reset();
+}
+
+formElementAddCard.addEventListener('submit', createCard); 
