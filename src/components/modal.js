@@ -17,7 +17,6 @@ export function closePopupOnButton(evt) {
   }
 }
 
-
 // Закрытие попапа по ESC
 export function closePopupsEsc(evt){
     if(evt.key === 'Escape') {

@@ -35,6 +35,11 @@ initialCards.forEach((function (element) {
     cardList.append(addCard(element, deleteCard, cardLike, openCardImage));
   }))
 
+ // закрытие попапов  
+popups.forEach(function(popup) {
+  popup.addEventListener('mousedown', closePopupOnOverlay, closePopupOnButton);
+});
+
 // открытие попапа редиктирования профиля
 ProfileEdit.addEventListener('click', function(){
   nameInput.value = profileTitle.textContent;
@@ -42,17 +47,9 @@ ProfileEdit.addEventListener('click', function(){
 
   openPopup(popupEditForm);
 });
-// открытие попапа добавление карточки
-cardAdd.addEventListener('click', function(){
-  openPopup(popupAddCard);
-});
 
- // закрытие попапов  
- popups.forEach(function(popup) {
-  popup.addEventListener('mousedown', closePopupOnOverlay, closePopupOnButton);
-});
 // функция редактирования профиля
-  function handleFormSubmit(evt) {
+function handleFormSubmit(evt) {
     evt.preventDefault(); 
 
     profileTitle.textContent =  nameInput.value;
@@ -74,6 +71,11 @@ function openCardImage(cardView){
   openPopup(popupViewImage);
 }
 
+// открытие попапа добавление карточки
+cardAdd.addEventListener('click', function(){
+  openPopup(popupAddCard);
+});
+
 // функция добавление карточки
 function createCard(evt) {
   evt.preventDefault();
@@ -90,5 +92,6 @@ function createCard(evt) {
 
   formElementAddCard.reset();
 }
+
 // обработки кнопки сохранить в добавлении карточки
 formElementAddCard.addEventListener('submit', createCard); 
