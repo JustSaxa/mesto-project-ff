@@ -8,7 +8,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 // @todo: DOM узлы
 const cardList = document.querySelector('.places__list');
 
-const ProfileEdit = document.querySelector('.profile__edit-button'); // кнопка редактирования профиля
+const profileEdit = document.querySelector('.profile__edit-button'); // кнопка редактирования профиля
 const cardAdd = document.querySelector('.profile__add-button'); // кнопка добавление карточки
 
 const profileTitle = document.querySelector('.profile__title'); // имя профиля
@@ -24,10 +24,10 @@ const jobInput = formElementProfile.elements.description; // форма проф
 const popupAddCard = document.querySelector('.popup_type_new-card'); // добавление карточки модальное окно
 const formElementAddCard = document.forms['new-place']; // форма добавление карточки
 const placeName = formElementAddCard.elements['place-name']; // поле наименования местности
-const ImageLink = formElementAddCard.elements.link; // ссылка на картинку
+const imageLink = formElementAddCard.elements.link; // ссылка на картинку
 
 const popupViewImage = document.querySelector('.popup_type_image'); // модальное окно с избображением
-const ElementViewImage = popupViewImage.querySelector('.popup__image'); // изображение в модальном окне
+const elementViewImage = popupViewImage.querySelector('.popup__image'); // изображение в модальном окне
 const popupImageTitle = popupViewImage.querySelector('.popup__caption'); 
 
 // @todo: Вывести карточки на страницу
@@ -37,11 +37,11 @@ initialCards.forEach((function (element) {
 
  // закрытие попапов  
 popups.forEach(function(popup) {
-  popup.addEventListener('mousedown', closePopupOnOverlay, closePopupOnButton);
+  popup.addEventListener('mousedown', closePopupOnOverlay);
 });
 
 // открытие попапа редиктирования профиля
-ProfileEdit.addEventListener('click', function(){
+profileEdit.addEventListener('click', function(){
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 
@@ -49,7 +49,7 @@ ProfileEdit.addEventListener('click', function(){
 });
 
 // функция редактирования профиля
-function handleFormSubmit(evt) {
+function handleFormProfileSubmit(evt) {
     evt.preventDefault(); 
 
     profileTitle.textContent =  nameInput.value;
@@ -59,12 +59,12 @@ function handleFormSubmit(evt) {
   }
 
 // обработки кнопки сохранить в редактировании профиля
-formElementProfile.addEventListener('submit', handleFormSubmit); 
+formElementProfile.addEventListener('submit', handleFormProfileSubmit); 
 
 //функция открытия изображение карточки
 function openCardImage(cardView){
-  ElementViewImage.src = cardView.src;
-  ElementViewImage.alt = cardView.alt;
+  elementViewImage.src = cardView.src;
+  elementViewImage.alt = cardView.alt;
 
   popupImageTitle.textContent = cardView.alt;
 
@@ -82,7 +82,7 @@ function createCard(evt) {
 
   const cardData = {
       name: placeName.value,
-      link: ImageLink.value
+      link: imageLink.value
   };
 
   const newCard = addCard(cardData, deleteCard, cardLike, openCardImage);

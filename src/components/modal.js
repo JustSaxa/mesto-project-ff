@@ -10,12 +10,7 @@ export function closePopups(popup) {
     document.removeEventListener('keydown', closePopupsEsc);
 }
 
-//закрытие попапа по крестику
-export function closePopupOnButton(evt) {
-  if (evt.target.classList.contains('popup__close')) {
-    closePopups(evt.target.closest('.popup'));
-  }
-}
+
 
 // Закрытие попапа по ESC
 export function closePopupsEsc(evt){
@@ -27,7 +22,7 @@ export function closePopupsEsc(evt){
     }
   }
 
-//закрытие функции по оверлею
+//закрытие попапа по крестику и оверлею
 export function closePopupOnOverlay(evt) {
   if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
     closePopups(evt.target.closest('.popup'));
