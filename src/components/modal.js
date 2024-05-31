@@ -4,16 +4,33 @@ export function openPopup(popup){
     document.addEventListener('keydown', closePopupsEsc);
   }
 
-//закрытие попапа по клику
+//закрытие попапа
 export function closePopups(popup) {
     popup.classList.remove('popup_is-opened');
+    document.removeEventListener('keydown', closePopupsEsc);
 }
+
+//закрытие попапа по крестику
+export function closePopupOnButton(evt) {
+  if (evt.target.classList.contains('popup__close')) {
+    closePopups(evt.target.closest('.popup'));
+  }
+}
+
 
 // Закрытие попапа по ESC
 export function closePopupsEsc(evt){
     if(evt.key === 'Escape') {
       const opPopup = document.querySelector('.popup_is-opened');
-     closePopups(opPopup);
+      if(opPopup){
+        closePopups(opPopup);
+      }
     }
-   
   }
+
+//закрытие функции по оверлею
+export function closePopupOnOverlay(evt) {
+  if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+    closePopups(evt.target.closest('.popup'));
+  }
+}
