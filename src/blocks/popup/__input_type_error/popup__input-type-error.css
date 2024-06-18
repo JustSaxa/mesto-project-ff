@@ -1,0 +1,13 @@
+.popup__input_type_error {
+    border-color: red;
+  }
+  
+  .popup__error {
+    color: red;
+    font-size: 12px;
+    opacity: 0;
+  }
+
+  .popup__error_active {
+    opacity: 1;
+  }

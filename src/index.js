@@ -30,6 +30,15 @@ const popupViewImage = document.querySelector('.popup_type_image'); // мода�
 const elementViewImage = popupViewImage.querySelector('.popup__image'); // изображение в модальном окне
 const popupImageTitle = popupViewImage.querySelector('.popup__caption'); 
 
+const allDataForm = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
 // @todo: Вывести карточки на страницу
 initialCards.forEach((function (element) {
     cardList.append(addCard(element, deleteCard, cardLike, openCardImage));
@@ -42,10 +51,12 @@ popups.forEach(function(popup) {
 
 // открытие попапа редиктирования профиля
 profileEdit.addEventListener('click', function(){
+  
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
-
+  
   openPopup(popupEditForm);
+  clearValidation(popupEditForm);
 });
 
 // функция редактирования профиля
@@ -73,7 +84,9 @@ function openCardImage(cardView){
 
 // открытие попапа добавление карточки
 cardAdd.addEventListener('click', function(){
+  
   openPopup(popupAddCard);
+  clearValidation(popupAddCard);
 });
 
 // функция добавление карточки
@@ -95,3 +108,18 @@ function createCard(evt) {
 
 // обработки кнопки сохранить в добавлении карточки
 formElementAddCard.addEventListener('submit', createCard); 
+
+
+
+
+
+
+
+
+//валидация
+// Вынесем все необходимые элементы формы в константы
+
+
+
+
+enableValidation();
