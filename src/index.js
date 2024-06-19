@@ -3,7 +3,7 @@ import {initialCards} from './scripts/cards.js';
 import {openPopup, closePopups, closePopupOnOverlay, closePopupOnButton} from './components/modal.js';
 import {addCard, deleteCard, cardLike } from './components/card.js';
 import {enableValidation, clearValidation} from './components/validation.js';
-import { get } from 'jquery';
+import {getProfile, patchProfile} from './components/api.js';
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -41,34 +41,10 @@ const allDataForm = {
   errorClass: 'popup__error_visible'
 }
 
-//get запрос профиль
-function getProfile() {
-  return fetch('https://nomoreparties.co/v1/wff-cohort-16/users/me', {
-    headers: {
-      authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a'
-    }
-  })
-  .then(res => res.json())
-  .then((result) => {
-    return result;
-  });
-}
+
 
 
 // patch обновление профиля
-function patchProfile(name, description) {
-  return fetch('https://nomoreparties.co/v1/wff-cohort-16/users/me', {
-    method: 'PATCH',
-    headers: {
-      authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: name,
-      about: description
-    })
-  });
-}
 
 
 //get запрос на получение карточек
@@ -86,7 +62,6 @@ function getCards() {
   
   }
 
-getCards();
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach((function (element) {
@@ -100,13 +75,13 @@ popups.forEach(function(popup) {
 
 // открытие попапа редиктирования профиля
 profileEdit.addEventListener('click', function(){
-
   
-    nameInput.value = profileTitle.innerText;
-    jobInput.value = profileDescription.innerText;
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileDescription.textContent;
     
-    openPopup(popupEditForm);
-    clearValidation(popupEditForm, allDataForm);
+  clearValidation(popupEditForm, allDataForm);
+  openPopup(popupEditForm); 
+    
  
   
  

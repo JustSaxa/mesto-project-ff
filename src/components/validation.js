@@ -73,10 +73,11 @@ function showInputError (formElement, inputElement, errorMessage, data) {
  export function clearValidation (formElement, data) {
     const inputList = Array.from(formElement.querySelectorAll(data.inputSelector));
     const buttonElement = formElement.querySelector(data.submitButtonSelector);
-    toggleButtonState(inputList, buttonElement, data);
+    
     inputList.forEach((inputElement) => {
       hideInputError(formElement, inputElement, data);
     });
+    toggleButtonState(inputList, buttonElement, data);
   };
   
  export function enableValidation(data) {
