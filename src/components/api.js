@@ -24,4 +24,50 @@ export function patchProfile(name, description) {
       })
     });
   }
+
+  //get запрос на получение информации о карточка
+  export function getCards() {
+    return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards', {
+      headers: {
+        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a'
+      }
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
   
+// post запрос на добавление карточки
+  export function postCard(name, url) {
+    return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards ', {
+      method: 'POST',
+      headers: {
+        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        link: url
+      })
+    });
+  }
+  
+  //delete запрос на удаление карточки
+export  function deleteCards(cardId) {
+    return fetch(`https://nomoreparties.co/v1/wff-cohort-16/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject(`Ошибка: ${response.status}`);
+      }
+      return response.json();
+    });
+  }

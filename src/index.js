@@ -3,7 +3,7 @@ import {initialCards} from './scripts/cards.js';
 import {openPopup, closePopups, closePopupOnOverlay, closePopupOnButton} from './components/modal.js';
 import {addCard, deleteCard, cardLike } from './components/card.js';
 import {enableValidation, clearValidation} from './components/validation.js';
-import {getProfile, patchProfile} from './components/api.js';
+import {getProfile, patchProfile, getCards, postCard} from './components/api.js';
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -48,25 +48,10 @@ const allDataForm = {
 
 
 //get запрос на получение карточек
-function getCards() {
-  
-  fetch('https://nomoreparties.co/v1/wff-cohort-16/cards', {
-    headers: {
-      authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a'
-    }
-  })
-    .then(res => res.json())
-    .then((result) => {
-      return result;
-    }); 
-  
-  }
+
 
 
 // @todo: Вывести карточки на страницу
-initialCards.forEach((function (element) {
-    cardList.append(addCard(element, deleteCard, cardLike, openCardImage));
-  }))
 
  // закрытие попапов  
 popups.forEach(function(popup) {
@@ -142,22 +127,37 @@ cardAdd.addEventListener('click', function(){
 });
 
 // функция добавление карточки
+
 function createCard(evt) {
   evt.preventDefault();
 
   const cardData = {
-      name: placeName.value,
-      link: imageLink.value
+    name: placeName.value,
+    link: imageLink.value
   };
 
-  const newCard = addCard(cardData, deleteCard, cardLike, openCardImage);
-  cardList.prepend(newCard);
-  
-  closePopups(popupAddCard);
+  // Отправка данных на сервер
+  postCard(cardData.name, cardData.link)
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject(`Ошибка: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Данные успешно добавлены на сервер, теперь можно добавить карточку в DOM
+      const newCard = addCard(data, deleteCard, cardLike, openCardImage);
+      cardList.prepend(newCard);
 
-  formElementAddCard.reset();
+      // Закрытие попапа и сброс формы
+      closePopups(popupAddCard);
+      formElementAddCard.reset();
+    })
+    .catch(err => {
+      console.error(err); // Обработка ошибки
+      // Здесь можно добавить код для показа сообщения об ошибке пользователю
+    });
 }
-
 // обработки кнопки сохранить в добавлении карточки
 formElementAddCard.addEventListener('submit', createCard); 
 
@@ -167,10 +167,28 @@ enableValidation(allDataForm);
 
 
 
-Promise.all([getProfile()])
-.then(([profile]) => {
-  profileTitle.textContent = profile.name;
-  profileDescription.textContent = profile.about;
+Promise.all([getProfile(), getCards()])
+  .then(([profile, cards]) => {
+    profileTitle.textContent = profile.name;
+    profileDescription.textContent = profile.about;
+
+    cards.forEach((card) => {
+      cardList.append(addCard(card, deleteCard, cardLike, openCardImage, profile._id));
+    });
+  })
+  .catch((err) => {
+    console.log(err); // Обработка ошибок
+  });
+
+function get(){ return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards ', {
+  headers: {
+    authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a'
+  }
 })
+  .then(res => res.json())
+  .then((result) => {
+    console.log(result);
+  }); }
+ 
 
-
+get();
