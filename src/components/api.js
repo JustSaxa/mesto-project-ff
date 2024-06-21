@@ -71,3 +71,52 @@ export  function deleteCards(cardId) {
       return response.json();
     });
   }
+
+// put запрос на поставку лайка
+  export  function putLike(cardId) {
+    return fetch(`https://nomoreparties.co/v1/wff-cohort-16/cards/likes/${cardId}`, {
+      method: 'PUT',
+      headers: {
+        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject(`Ошибка: ${response.status}`);
+      }
+      return response.json();
+    });
+  }
+
+// delete запрос на удаления лайка
+  export  function deleteLike(cardId) {
+    return fetch(`https://nomoreparties.co/v1/wff-cohort-16/cards/likes/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject(`Ошибка: ${response.status}`);
+      }
+      return response.json();
+    });
+  }
+
+  //path запрос изменение картинки профиля
+  export function patchImageProfile(url) {
+    return fetch('https://nomoreparties.co/v1/wff-cohort-16/users/me/avatar', {
+      method: 'PATCH',
+      headers: {
+        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: url
+        
+      })
+    });
+  }

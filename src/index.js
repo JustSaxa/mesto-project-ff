@@ -3,7 +3,7 @@ import {initialCards} from './scripts/cards.js';
 import {openPopup, closePopups, closePopupOnOverlay, closePopupOnButton} from './components/modal.js';
 import {addCard, deleteCard, cardLike } from './components/card.js';
 import {enableValidation, clearValidation} from './components/validation.js';
-import {getProfile, patchProfile, getCards, postCard} from './components/api.js';
+import {getProfile, patchProfile, getCards, postCard, patchImageProfile} from './components/api.js';
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -15,6 +15,8 @@ const cardAdd = document.querySelector('.profile__add-button'); // кнопка 
 
 const profileTitle = document.querySelector('.profile__title'); // имя профиля
 const profileDescription = document.querySelector('.profile__description'); // описание профиля
+const profileImage = document.querySelector('.profile__image');// картинка профиля
+const popupProfileImage = document.querySelector('.popup_type_new-avatar');
 
 const popups = document.querySelectorAll('.popup'); // все попапы
 
@@ -22,6 +24,11 @@ const popupEditForm = document.querySelector('.popup_type_edit'); // редак�
 const formElementProfile = document.forms['edit-profile']; // форма профиля
 const nameInput = formElementProfile.elements.name; // форма профиля ИМЯ
 const jobInput = formElementProfile.elements.description; // форма профиля ОПИСАНИЕ
+
+const formElementImageProfile = document.forms['avatar-profile'];
+const imageProfileInput = formElementImageProfile.elements['edit-avatar'];
+
+
 
 const popupAddCard = document.querySelector('.popup_type_new-card'); // добавление карточки модальное окно
 const formElementAddCard = document.forms['new-place']; // форма добавление карточки
@@ -130,6 +137,7 @@ cardAdd.addEventListener('click', function(){
 
 function createCard(evt) {
   evt.preventDefault();
+  evt.submitter.textContent = 'Сохранение...';
 
   const cardData = {
     name: placeName.value,
@@ -167,10 +175,64 @@ enableValidation(allDataForm);
 
 
 
+
+
+// открытие попапа аватара
+profileImage.addEventListener('click', function(){
+  
+  openPopup(popupProfileImage);
+  clearValidation(popupProfileImage, allDataForm);
+
+});
+
+
+function handleProfileImageSubmit(evt) {
+  evt.preventDefault(); 
+  evt.submitter.textContent = 'Сохранение...';
+
+  
+ 
+const profileImages = imageProfileInput.value;
+
+
+// Отправка данных на сервер
+patchImageProfile(profileImages)
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+ 
+    }
+    return Promise.reject(`Ошибка: ${response.status}`);
+  })
+  .then((result) => {
+    profileImage.style.backgroundImage = `url(${result.avatar})`;
+   
+   
+   
+
+    // Закрытие попапа после успешного обновления данных
+    closePopups(popupProfileImage);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+  
+
+
+
+}
+
+
+formElementImageProfile.addEventListener('submit', handleProfileImageSubmit);
+
+
+
 Promise.all([getProfile(), getCards()])
   .then(([profile, cards]) => {
     profileTitle.textContent = profile.name;
     profileDescription.textContent = profile.about;
+    profileImage.style.backgroundImage = `url(${profile.avatar})`;
 
     cards.forEach((card) => {
       cardList.append(addCard(card, deleteCard, cardLike, openCardImage, profile._id));
