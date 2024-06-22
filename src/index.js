@@ -48,17 +48,7 @@ const allDataForm = {
   errorClass: 'popup__error_visible'
 }
 
-
-
-
-// patch обновление профиля
-
-
-//get запрос на получение карточек
-
-
-
-// @todo: Вывести карточки на страницу
+enableValidation(allDataForm);
 
  // закрытие попапов  
 popups.forEach(function(popup) {
@@ -73,26 +63,19 @@ profileEdit.addEventListener('click', function(){
     
   clearValidation(popupEditForm, allDataForm);
   openPopup(popupEditForm); 
-    
- 
-  
- 
-
 });
-
-
 
 // функция редактирования профиля
 function handleFormProfileSubmit(evt) {
     evt.preventDefault(); 
     evt.submitter.textContent = 'Сохранение...';
     
-   
+
   const profileName = nameInput.value;
   const Description = jobInput.value;
 
-  // Отправка данных на сервер
-  patchProfile(profileName, Description)
+// Отправка данных на сервер профиля
+patchProfile(profileName, Description)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -101,10 +84,10 @@ function handleFormProfileSubmit(evt) {
       return Promise.reject(`Ошибка: ${response.status}`);
     })
     .then((result) => {
+
       profileTitle.textContent = result.name;
       profileDescription.textContent = result.about;
-     
-
+  
       // Закрытие попапа после успешного обновления данных
       closePopups(popupEditForm);
     })
@@ -114,7 +97,7 @@ function handleFormProfileSubmit(evt) {
     .finally(() => {
       evt.submitter.textContent = 'Сохранить';
     })
-  }
+}
 
 // обработки кнопки сохранить в редактировании профиля
 formElementProfile.addEventListener('submit', handleFormProfileSubmit); 
@@ -134,10 +117,10 @@ cardAdd.addEventListener('click', function(){
   
   openPopup(popupAddCard);
   clearValidation(popupAddCard, allDataForm);
+
 });
 
 // функция добавление карточки
-
 function createCard(evt) {
   evt.preventDefault();
   evt.submitter.textContent = 'Сохранение...';
@@ -176,14 +159,6 @@ function createCard(evt) {
 // обработки кнопки сохранить в добавлении карточки
 formElementAddCard.addEventListener('submit', createCard); 
 
-
-
-enableValidation(allDataForm);
-
-
-
-
-
 // открытие попапа аватара
 profileImage.addEventListener('click', function(){
   
@@ -192,31 +167,24 @@ profileImage.addEventListener('click', function(){
 
 });
 
-
+//редактировани картинки профиля
 function handleProfileImageSubmit(evt) {
   evt.preventDefault(); 
   evt.submitter.textContent = 'Сохранение...';
 
-  
- 
 const profileImages = imageProfileInput.value;
-
 
 // Отправка данных на сервер
 patchImageProfile(profileImages)
   .then(response => {
     if (response.ok) {
       return response.json();
- 
     }
     return Promise.reject(`Ошибка: ${response.status}`);
   })
   .then((result) => {
     profileImage.style.backgroundImage = `url(${result.avatar})`;
    
-   
-   
-
     // Закрытие попапа после успешного обновления данных
     closePopups(popupProfileImage);
   })
@@ -227,14 +195,8 @@ patchImageProfile(profileImages)
   .finally(() => {
     evt.submitter.textContent = 'Сохранить';
   })
-
-  
-
-
-
 }
-
-
+//бработки кнопки сохранить в попапе изменения аватара профиля
 formElementImageProfile.addEventListener('submit', handleProfileImageSubmit);
 
 
@@ -250,7 +212,7 @@ Promise.all([getProfile(), getCards()])
     });
   })
   .catch((err) => {
-    console.log(err); // Обработка ошибок
+    console.log(err);
   });
 
 function get(){ return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards ', {
@@ -262,6 +224,3 @@ function get(){ return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards ',
   .then((result) => {
     console.log(result);
   }); }
- 
-
-get();

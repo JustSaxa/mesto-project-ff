@@ -1,9 +1,14 @@
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/wff-cohort-16',
+  headers: {
+    authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
+    'Content-Type': 'application/json'
+  }
+}
 //get запрос на получение информации о профиле
 export function getProfile() {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-16/users/me', {
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a'
-      }
+    return fetch(`${config.baseUrl}/users/me`, {
+      headers: config.headers,
     })
     .then(res => res.json())
     .then((result) => {
@@ -12,12 +17,9 @@ export function getProfile() {
   }
 // path запрос на обновление профиля
 export function patchProfile(name, description) {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-16/users/me', {
+    return fetch(`${config.baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
-        'Content-Type': 'application/json'
-      },
+      headers: config.headers,
       body: JSON.stringify({
         name: name,
         about: description
@@ -27,10 +29,8 @@ export function patchProfile(name, description) {
 
   //get запрос на получение информации о карточка
   export function getCards() {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards', {
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a'
-      }
+    return fetch(`${config.baseUrl}/cards`, {
+      headers: config.headers,
     })
     .then(res => {
       if (res.ok) {
@@ -42,27 +42,21 @@ export function patchProfile(name, description) {
   
 // post запрос на добавление карточки
   export function postCard(name, url) {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards ', {
+    return fetch(`${config.baseUrl}/cards`, {
       method: 'POST',
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
-        'Content-Type': 'application/json'
-      },
+      headers: config.headers,
       body: JSON.stringify({
         name: name,
         link: url
       })
     });
   }
-  
+
   //delete запрос на удаление карточки
 export  function deleteCards(cardId) {
-    return fetch(`https://nomoreparties.co/v1/wff-cohort-16/cards/${cardId}`, {
+    return fetch(`${config.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
-        'Content-Type': 'application/json'
-      }
+      headers: config.headers,
     })
     .then(response => {
       if (!response.ok) {
@@ -74,12 +68,9 @@ export  function deleteCards(cardId) {
 
 // put запрос на поставку лайка
   export  function putLike(cardId) {
-    return fetch(`https://nomoreparties.co/v1/wff-cohort-16/cards/likes/${cardId}`, {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
       method: 'PUT',
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
-        'Content-Type': 'application/json'
-      }
+      headers: config.headers,
     })
     .then(response => {
       if (!response.ok) {
@@ -91,12 +82,9 @@ export  function deleteCards(cardId) {
 
 // delete запрос на удаления лайка
   export  function deleteLike(cardId) {
-    return fetch(`https://nomoreparties.co/v1/wff-cohort-16/cards/likes/${cardId}`, {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
       method: 'DELETE',
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
-        'Content-Type': 'application/json'
-      }
+      headers: config.headers,
     })
     .then(response => {
       if (!response.ok) {
@@ -108,15 +96,11 @@ export  function deleteCards(cardId) {
 
   //path запрос изменение картинки профиля
   export function patchImageProfile(url) {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-16/users/me/avatar', {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: {
-        authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a',
-        'Content-Type': 'application/json'
-      },
+      headers: config.headers,
       body: JSON.stringify({
-        avatar: url
-        
+        avatar: url 
       })
     });
   }
