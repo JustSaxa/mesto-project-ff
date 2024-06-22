@@ -28,8 +28,6 @@ function showInputError (formElement, inputElement, errorMessage, data) {
     }
   };
   
-  
-  
   function hasInvalidInput (inputList) {
    
     return inputList.some((inputElement) => {

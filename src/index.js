@@ -1,6 +1,5 @@
 import './pages/index.css';
-import {initialCards} from './scripts/cards.js';
-import {openPopup, closePopups, closePopupOnOverlay, closePopupOnButton} from './components/modal.js';
+import {openPopup, closePopups, closePopupOnOverlay} from './components/modal.js';
 import {addCard, deleteCard, cardLike } from './components/card.js';
 import {enableValidation, clearValidation} from './components/validation.js';
 import {getProfile, patchProfile, getCards, postCard, patchImageProfile} from './components/api.js';
