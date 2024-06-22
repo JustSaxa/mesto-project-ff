@@ -85,7 +85,7 @@ profileEdit.addEventListener('click', function(){
 // функция редактирования профиля
 function handleFormProfileSubmit(evt) {
     evt.preventDefault(); 
-
+    evt.submitter.textContent = 'Сохранение...';
     
    
   const profileName = nameInput.value;
@@ -110,7 +110,10 @@ function handleFormProfileSubmit(evt) {
     })
     .catch((err) => {
       console.error(err);
-    });
+    })
+    .finally(() => {
+      evt.submitter.textContent = 'Сохранить';
+    })
   }
 
 // обработки кнопки сохранить в редактировании профиля
@@ -164,7 +167,11 @@ function createCard(evt) {
     .catch(err => {
       console.error(err); // Обработка ошибки
       // Здесь можно добавить код для показа сообщения об ошибке пользователю
-    });
+    })
+    .finally(() => {
+      evt.submitter.textContent = 'Сохранить';
+    })
+  
 }
 // обработки кнопки сохранить в добавлении карточки
 formElementAddCard.addEventListener('submit', createCard); 
@@ -215,7 +222,11 @@ patchImageProfile(profileImages)
   })
   .catch((err) => {
     console.error(err);
-  });
+  })
+
+  .finally(() => {
+    evt.submitter.textContent = 'Сохранить';
+  })
 
   
 
