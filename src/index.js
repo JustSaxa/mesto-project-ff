@@ -75,13 +75,7 @@ function handleFormProfileSubmit(evt) {
 
 // Отправка данных на сервер профиля
 patchProfile(profileName, Description)
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-   
-      }
-      return Promise.reject(`Ошибка: ${response.status}`);
-    })
+    
     .then((result) => {
 
       profileTitle.textContent = result.name;
@@ -131,15 +125,10 @@ function createCard(evt) {
 
   // Отправка данных на сервер
   postCard(cardData.name, cardData.link)
-    .then(response => {
-      if (!response.ok) {
-        return Promise.reject(`Ошибка: ${response.status}`);
-      }
-      return response.json();
-    })
+    
     .then(data => {
       // Данные успешно добавлены на сервер, теперь можно добавить карточку в DOM
-      const newCard = addCard(data, deleteCard, cardLike, openCardImage);
+      const newCard = addCard(data, deleteCard, cardLike, openCardImage, data.userId);
       cardList.prepend(newCard);
 
       // Закрытие попапа и сброс формы
@@ -175,12 +164,6 @@ const profileImages = imageProfileInput.value;
 
 // Отправка данных на сервер
 patchImageProfile(profileImages)
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-    return Promise.reject(`Ошибка: ${response.status}`);
-  })
   .then((result) => {
     profileImage.style.backgroundImage = `url(${result.avatar})`;
    
@@ -213,13 +196,3 @@ Promise.all([getProfile(), getCards()])
   .catch((err) => {
     console.log(err);
   });
-
-function get(){ return fetch('https://nomoreparties.co/v1/wff-cohort-16/cards ', {
-  headers: {
-    authorization: '4c76b053-cbba-4436-8bfa-d0df16cf432a'
-  }
-})
-  .then(res => res.json())
-  .then((result) => {
-    console.log(result);
-  }); }

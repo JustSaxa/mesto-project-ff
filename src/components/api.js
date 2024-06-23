@@ -1,3 +1,7 @@
+import {checkResponse} from '../utils/response.js';
+
+
+
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-16',
   headers: {
@@ -5,15 +9,14 @@ const config = {
     'Content-Type': 'application/json'
   }
 }
+
+
 //get запрос на получение информации о профиле
 export function getProfile() {
     return fetch(`${config.baseUrl}/users/me`, {
       headers: config.headers,
     })
-    .then(res => res.json())
-    .then((result) => {
-      return result;
-    });
+    .then(checkResponse)
   }
 // path запрос на обновление профиля
 export function patchProfile(name, description) {
@@ -24,7 +27,8 @@ export function patchProfile(name, description) {
         name: name,
         about: description
       })
-    });
+    })
+    .then(checkResponse)
   }
 
   //get запрос на получение информации о карточка
@@ -32,12 +36,7 @@ export function patchProfile(name, description) {
     return fetch(`${config.baseUrl}/cards`, {
       headers: config.headers,
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(checkResponse)
   }
   
 // post запрос на добавление карточки
@@ -49,7 +48,8 @@ export function patchProfile(name, description) {
         name: name,
         link: url
       })
-    });
+    })
+    .then(checkResponse)
   }
 
   //delete запрос на удаление карточки
@@ -58,12 +58,7 @@ export  function deleteCards(cardId) {
       method: 'DELETE',
       headers: config.headers,
     })
-    .then(response => {
-      if (!response.ok) {
-        return Promise.reject(`Ошибка: ${response.status}`);
-      }
-      return response.json();
-    });
+    .then(checkResponse)
   }
 
 // put запрос на поставку лайка
@@ -72,12 +67,7 @@ export  function deleteCards(cardId) {
       method: 'PUT',
       headers: config.headers,
     })
-    .then(response => {
-      if (!response.ok) {
-        return Promise.reject(`Ошибка: ${response.status}`);
-      }
-      return response.json();
-    });
+    .then(checkResponse)
   }
 
 // delete запрос на удаления лайка
@@ -86,12 +76,7 @@ export  function deleteCards(cardId) {
       method: 'DELETE',
       headers: config.headers,
     })
-    .then(response => {
-      if (!response.ok) {
-        return Promise.reject(`Ошибка: ${response.status}`);
-      }
-      return response.json();
-    });
+    .then(checkResponse)
   }
 
   //path запрос изменение картинки профиля
@@ -102,5 +87,6 @@ export  function deleteCards(cardId) {
       body: JSON.stringify({
         avatar: url 
       })
-    });
+    })
+    .then(checkResponse)
   }
